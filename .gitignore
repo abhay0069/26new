@@ -25,4 +25,3 @@ npm-debug.log*
 *.tsbuildinfo
 
 # Generated single-file build (regenerate with: npm run build && node scripts/make-standalone.mjs)
-atmos-library.html
