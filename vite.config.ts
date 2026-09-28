@@ -5,6 +5,9 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
+  // DEPLOY_BASE lets CI build for a subpath (e.g. GitHub Pages /26new/)
+  // while local dev stays at the root.
+  base: process.env.DEPLOY_BASE || '/',
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
