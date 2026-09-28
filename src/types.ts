@@ -104,4 +104,5 @@ export type Route =
   | { name: 'collections' }
   | { name: 'collection'; id: string }
   | { name: 'saved' }
+  | { name: 'kage' }
   | { name: 'detail'; id: string };

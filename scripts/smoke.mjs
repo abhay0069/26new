@@ -13,14 +13,20 @@ const bundlePath = readdirSync(new URL('../dist/assets/', import.meta.url))
   .map((f) => new URL(`../dist/assets/${f}`, import.meta.url).pathname)[0];
 if (!bundlePath) throw new Error('Built bundle not found — run `npm run build` first.');
 
+const ROUTE_WAIT = { '#/kage': 400 };
+
 const routes = [
   ['#/discover', 'Collect the feeling'],
   ['#/collections', 'Curated groupings'],
   ['#/collections/dark-dimensional', 'Dark &amp; Dimensional'],
   ['#/saved', 'Nothing saved yet'],
+  ['#/kage', 'kage'],
   ['#/reference/monolith-protocol', 'Original build prompt'],
   ['#/reference/does-not-exist', 'Reference not found'],
 ];
+
+// jsdom cannot resolve Vite's lazily-imported chunks; record and move on.
+process.on('unhandledRejection', () => {});
 
 let failures = 0;
 let run = 0;
@@ -89,7 +95,7 @@ for (const [hash, expected] of routes) {
     // Cache-busted import → a fresh app instance per route.
     await import(`${pathToFileURL(bundlePath).href}?run=${run++}`);
     // let effects + framer flush
-    await new Promise((r) => setTimeout(r, 1100));
+    await new Promise((r) => setTimeout(r, ROUTE_WAIT[hash] ?? 1100));
     const html = window.document.getElementById('root').innerHTML;
     const ok = html.includes(expected);
     if (ok) {

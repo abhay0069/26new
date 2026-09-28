@@ -33,6 +33,7 @@ export function Footer({ navigate }: FooterProps) {
                 ['Discover', { name: 'discover' }],
                 ['Collections', { name: 'collections' }],
                 ['Saved', { name: 'saved' }],
+                ['Kage scene', { name: 'kage' }],
               ] as Array<[string, Route]>
             ).map(([label, route]) => (
               <li key={label}>

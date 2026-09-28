@@ -12,6 +12,8 @@ export function routeToHash(route: Route): string {
       return `#/collections/${route.id}`;
     case 'saved':
       return '#/saved';
+    case 'kage':
+      return '#/kage';
     case 'detail':
       return `#/reference/${route.id}`;
   }
@@ -25,6 +27,8 @@ export function parseHash(hash: string): Route {
       return parts[1] ? { name: 'collection', id: parts[1] } : { name: 'collections' };
     case 'saved':
       return { name: 'saved' };
+    case 'kage':
+      return { name: 'kage' };
     case 'reference':
       return parts[1] ? { name: 'detail', id: parts[1] } : { name: 'discover' };
     case 'discover':

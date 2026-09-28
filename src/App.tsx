@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { TriangleAlert, X } from 'lucide-react';
 
@@ -13,6 +13,9 @@ import { LogoMark } from '@/components/LogoMark';
 import { ToastProvider } from '@/components/Toast';
 import { useHashRoute, routeKey } from '@/hooks/useHashRoute';
 import { LibraryProvider, useLibrary } from '@/state/LibraryContext';
+
+/* The Kage (ThreeUI) scene is heavy — load it only when its route is used. */
+const KageScene = lazy(() => import('@/scene/KageScene'));
 
 /* ------------------------------------------------------------------ */
 /* Storage error banner                                                */
@@ -114,10 +117,30 @@ function AppShell() {
         );
       case 'saved':
         return <SavedPage />;
+      case 'kage':
+        return null; /* rendered full-bleed below, outside the library chrome */
       case 'detail':
         return <DetailView entryId={route.id} onBack={() => back({ name: 'discover' })} />;
     }
   };
+
+  /* The Kage scene is a complete authored document: it takes the whole
+     viewport with none of the library's chrome around it. */
+  if (route.name === 'kage') {
+    return (
+      <div className="min-h-screen bg-[#05070a] text-bone">
+        <Suspense
+          fallback={
+            <div className="kage-boot" data-kage-boot="1">
+              <span>Kage — loading</span>
+            </div>
+          }
+        >
+          <KageScene />
+        </Suspense>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen flex-col bg-ink text-bone">
