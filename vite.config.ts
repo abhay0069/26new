@@ -8,6 +8,11 @@ export default defineConfig({
   // DEPLOY_BASE lets CI build for a subpath (e.g. GitHub Pages /26new/)
   // while local dev stays at the root.
   base: process.env.DEPLOY_BASE || '/',
+  // STANDALONE=1 folds lazy chunks into one JS file so
+  // scripts/make-standalone.mjs can inline the whole app.
+  build: process.env.STANDALONE
+    ? { rollupOptions: { output: { inlineDynamicImports: true } } }
+    : undefined,
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
