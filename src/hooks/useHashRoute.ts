@@ -4,6 +4,8 @@ import type { Route } from '@/types';
 
 export function routeToHash(route: Route): string {
   switch (route.name) {
+    case 'atmos':
+      return '#/atmos';
     case 'discover':
       return '#/discover';
     case 'collections':
@@ -21,8 +23,10 @@ export function routeToHash(route: Route): string {
 
 export function parseHash(hash: string): Route {
   const parts = hash.replace(/^#\/?/, '').split('/').filter(Boolean);
-  if (parts.length === 0) return { name: 'discover' };
+  if (parts.length === 0) return { name: 'atmos' };
   switch (parts[0]) {
+    case 'atmos':
+      return { name: 'atmos' };
     case 'collections':
       return parts[1] ? { name: 'collection', id: parts[1] } : { name: 'collections' };
     case 'saved':

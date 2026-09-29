@@ -100,6 +100,7 @@ export interface Collection {
 }
 
 export type Route =
+  | { name: 'atmos' }
   | { name: 'discover' }
   | { name: 'collections' }
   | { name: 'collection'; id: string }

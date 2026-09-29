@@ -13,9 +13,10 @@ const bundlePath = readdirSync(new URL('../dist/assets/', import.meta.url))
   .map((f) => new URL(`../dist/assets/${f}`, import.meta.url).pathname)[0];
 if (!bundlePath) throw new Error('Built bundle not found — run `npm run build` first.');
 
-const ROUTE_WAIT = { '#/kage': 400 };
+const ROUTE_WAIT = { '#/kage': 400, '#/': 500 };
 
 const routes = [
+  ['#/', 'INITIATING DESCENT'],
   ['#/discover', 'Collect the feeling'],
   ['#/collections', 'Curated groupings'],
   ['#/collections/dark-dimensional', 'Dark &amp; Dimensional'],
@@ -47,6 +48,27 @@ for (const [hash, expected] of routes) {
       unobserve() {}
       disconnect() {}
     };
+  window.matchMedia =
+    window.matchMedia ||
+    ((query) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener() {},
+      removeListener() {},
+      addEventListener() {},
+      removeEventListener() {},
+      dispatchEvent() { return false; },
+    }));
+  window.IntersectionObserver =
+    window.IntersectionObserver ||
+    class {
+      constructor(callback) { void callback; }
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+      takeRecords() { return []; }
+    };
   window.MutationObserver =
     window.MutationObserver ||
     class {
@@ -75,6 +97,8 @@ for (const [hash, expected] of routes) {
   Object.defineProperty(global, 'navigator', { value: window.navigator, configurable: true });
   global.localStorage = window.localStorage;
   global.MutationObserver = window.MutationObserver;
+  global.IntersectionObserver = window.IntersectionObserver;
+  global.matchMedia = window.matchMedia;
   global.SVGElement = window.SVGElement;
   global.SVGSVGElement = window.SVGSVGElement ?? window.SVGElement;
   global.CustomEvent = window.CustomEvent;

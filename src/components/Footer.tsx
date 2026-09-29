@@ -30,6 +30,7 @@ export function Footer({ navigate }: FooterProps) {
           <ul className="space-y-2 text-sm">
             {(
               [
+                ['Immersive', { name: 'atmos' }],
                 ['Discover', { name: 'discover' }],
                 ['Collections', { name: 'collections' }],
                 ['Saved', { name: 'saved' }],

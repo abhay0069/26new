@@ -41,9 +41,9 @@ export function Nav({ route, navigate, onAddClick, onSearchClick }: NavProps) {
         {/* Brand */}
         <button
           type="button"
-          onClick={() => navigate({ name: 'discover' })}
+          onClick={() => navigate({ name: 'atmos' })}
           className="flex items-center gap-3 rounded-lg"
-          aria-label="Atmos Library — go to Discover"
+          aria-label="Atmos Library — go to the immersive descent"
         >
           <LogoMark className="h-8 w-8" />
           <span className="flex items-baseline gap-2">

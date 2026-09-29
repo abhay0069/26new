@@ -7,6 +7,7 @@ import { CollectionPage, CollectionsPage } from '@/components/CollectionsPage';
 import { DiscoverPage } from '@/components/DiscoverPage';
 import { DetailView } from '@/components/DetailView';
 import { Footer } from '@/components/Footer';
+import ImmersivePage from '@/components/ImmersivePage';
 import { Nav } from '@/components/Nav';
 import { SavedPage } from '@/components/SavedPage';
 import { LogoMark } from '@/components/LogoMark';
@@ -123,6 +124,16 @@ function AppShell() {
         return <DetailView entryId={route.id} onBack={() => back({ name: 'discover' })} />;
     }
   };
+
+  /* The immersive descent is the front door: full viewport, no library
+     chrome — the page carries its own HUD, cursor, and grain. */
+  if (route.name === 'atmos') {
+    return (
+      <div className="min-h-screen bg-[#060809] text-bone">
+        <ImmersivePage navigate={navigate} />
+      </div>
+    );
+  }
 
   /* The Kage scene is a complete authored document: it takes the whole
      viewport with none of the library's chrome around it. */
